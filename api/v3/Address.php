@@ -80,7 +80,7 @@ function civicrm_api3_address_create(&$params) {
    * Create array for BAO (expects address params in as an
    * element in array 'address'
    */
-  $addressBAO = CRM_Core_BAO_Address::add($params, TRUE);
+  $addressBAO = CRM_Core_BAO_Address::add($params, $params['fix_address']);
   if (empty($addressBAO)) {
     return civicrm_api3_create_error("Address is not created or updated ");
   }
@@ -109,6 +109,12 @@ function _civicrm_api3_address_create_spec(&$params) {
     'description' => 'Optional param to indicate you want to skip geocoding (useful when importing a lot of addresses
       at once, the job \'Geocode and Parse Addresses\' can execute this task after the import)',
     'type' => CRM_Utils_Type::T_BOOLEAN,
+  );
+  $params['fix_address'] = array(
+    'title' => ts('Fix address'),
+    'description' => ts('When true, apply various fixes to the address before insert. Default true.'),
+    'type' => CRM_Utils_Type::T_BOOLEAN,
+    'api_default' => TRUE,
   );
   $params['world_region'] = array(
     'title' => ts('World Region'),
